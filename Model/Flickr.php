@@ -1,6 +1,6 @@
 <?php
 
-class FlickrModel
+class Flickr extends Model
 {
 
   // public function __construct($key)
