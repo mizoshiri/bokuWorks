@@ -1,4 +1,5 @@
 <?php
+
 class Flickr
 {
   const FLICKR_API_URL = 'http://api.flickr.com/services/rest/?';
@@ -8,7 +9,7 @@ class Flickr
     $this->apiKey = FLICKR_API_KEY;
   }
 
-  public function getImages($keyword, $limit = 30, $sizeName = 'small', $attributes = null)
+  public function getImages($keyword = 'test', $page = 1, $limit = DEFAULT_NUMBER_OF_PAR_PAGE, $sizeName = 'small', $attributes = null)
   {
 
     # http://www.flickr.com/services/api/flickr.photos.search.html
@@ -18,7 +19,8 @@ class Flickr
        'api_key' => $this->apiKey,
        'text' => $keyword,
        'sort' => 'interestingness-desc',
-       'per_page' => $limit
+       'per_page' => $limit,
+       'page' => $page
       )
     );
     $curl = curl_init(self::FLICKR_API_URL);
@@ -29,8 +31,14 @@ class Flickr
     curl_close($curl);
     $data = simplexml_load_string($data);
 
+    #basic data
+    $results['pages'] = ceil( intval($data->photos->attributes()->pages) / intval(DEFAULT_NUMBER_OF_PAR_PAGE) );
+    $results['page'] = intval($data->photos->attributes()->page);
+
     foreach($data->photos->photo as $photo) {
-      $results[]['url'] = $this->getImageUrl($photo, 'small');
+
+      $results['photo'][]['url'] = $this->getImageUrl($photo, 'small');
+      #$results['photo'][]['original'] = $this->getImageUrl($photo, 'original');
     }
     return $results;
   }

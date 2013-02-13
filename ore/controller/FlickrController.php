@@ -23,8 +23,11 @@ class FlickrController
 
   public function search()
   {
-    #var_dump($this->params);
-    $data = $this->model->getImages($this->params['meta']['get']['s']);
+    $p = 1;
+    if (isset($this->params['meta']['get']['p'])){
+      $p = $this->params['meta']['get']['p'];
+    }
+    $data = $this->model->getImages($this->params['meta']['get']['s'], $p);
     return $data;
   }
 }
