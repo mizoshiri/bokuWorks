@@ -20,5 +20,4 @@ class StartController
     $dispatcher->boot();
   }
 }
-
 ?>

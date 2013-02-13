@@ -12,7 +12,6 @@ class Viewer
 
   public function render($requests, $data)
   {
-
     $filePath = ORE_ROOT . '/ore/view/' . $requests['controller'] . '/' . $requests['action'] . '.php';
     ob_start();
     if (!is_readable($filePath)) {

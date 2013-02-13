@@ -7,19 +7,21 @@
   <script src="/js/site.js"></script>
 </head>
 <body>
-<div class="container">
+<div id="container">
 
 <header>
-  <form method="post" action="/flickr/search/">
+  <p><a href="/"><?php echo SITE_NAME;?></a></p>
+
+  <form method="get" action="/flickr/search/">
     <input type="text" name="s" placeholder="keyeword..." />
-    <input type="submit" name="submit" value="go" />
+    <input type="submit"  value="go" />
   </form>
 </header>
 
 <?php echo $this->_content; ?>
 
 <footer>
-  <p class="pull-right"><a href="#">Back to top</a></p>
+  <p><a href="/">Home</a></p>
 </footer>
 </div>
 

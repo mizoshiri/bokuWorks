@@ -1,0 +1,7 @@
+body{margin:20px;}
+#container{ width: 980px; margin: 0 auto;}
+#container ul{list-style: none;}
+#container ul li{display: inline; }
+
+header{background: #efefef;}
+footer{background: #efefef;}

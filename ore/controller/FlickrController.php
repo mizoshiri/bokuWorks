@@ -6,7 +6,7 @@ class FlickrController
   {
     $filePath = ORE_ROOT . '/ore/model/' . $modelName . '.php';
     if (!is_readable($filePath)) {
-      throw new \InvalidArgumentException("Model $modelName is not found.");
+      throw new \InvalidArgumentException("Model is not found.");
     }else{
       require($filePath);
       $this->model = new $modelName();
@@ -23,7 +23,8 @@ class FlickrController
 
   public function search()
   {
-    $data = $this->model->getImages($this->params['meta']);
+    #var_dump($this->params);
+    $data = $this->model->getImages($this->params['meta']['get']['s']);
     return $data;
   }
 }
