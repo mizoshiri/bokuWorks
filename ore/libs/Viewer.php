@@ -12,7 +12,7 @@ class Viewer
 
   public function render($requests, $data)
   {
-    $filePath = ORE_ROOT . '/ore/view/' . $requests['controller'] . '/' . $requests['action'] . '.php';
+    $filePath = ORE_ROOT . '/ore/view/' . strtolower($requests['controller']) . '/' . $requests['action'] . '.php';
     $pager = $this->pager($requests, $data);
     if (!is_readable($filePath)) {
       throw new \InvalidArgumentException('View is not found.');
