@@ -1,34 +1,38 @@
 <?php
-
-class Flickr extends Model
+class Flickr
 {
-
-  // public function __construct($key)
-  // {
-  //   $this->Apikey = $key;
-  // }
-
   const FLICKR_API_URL = 'http://api.flickr.com/services/rest/?';
 
-  # set key
-  public function setFlickrApikey($key)
+  public function __construct()
   {
-    $this->Apikey = $key;
+    $this->apiKey = FLICKR_API_KEY;
   }
 
   public function getImages($keyword, $limit = 30, $sizeName = 'small', $attributes = null)
   {
+
+    # http://www.flickr.com/services/api/flickr.photos.search.html
     $query = http_build_query(
       Array(
        'method' => 'flickr.photos.search',
-       'api_key' => $this->Apikey,
+       'api_key' => $this->apiKey,
        'text' => $keyword,
        'sort' => 'interestingness-desc',
        'per_page' => $limit
       )
     );
-    $data = simplexml_load_file(self::FLICKR_API_URL . $query) or die("XML Error");
-    return $data->photos;
+    $curl = curl_init(self::FLICKR_API_URL);
+
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $query);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $data = curl_exec($curl);
+    curl_close($curl);
+    $data = simplexml_load_string($data);
+
+    foreach($data->photos->photo as $photo) {
+      $results[]['url'] = $this->getImageUrl($photo, 'small');
+    }
+    return $results;
   }
 
   # get severl size img url
